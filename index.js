@@ -2,7 +2,7 @@ const { Client, GatewayIntentBits, SlashCommandBuilder, PermissionFlagsBits, Emb
 const express = require('express');
 
 const GUILD_ID = '1478745386586865788';
-const ROLE_ID = '1485123070921277530';
+const BOT_ID = '1485123070921277530';
 const VOICE_CHANNEL_ID = '1485109675904208997';
 
 const WELCOME_CHANNEL_ID = '1480025451765436510';
@@ -115,8 +115,8 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.on('messageCreate', async (message) => {
-  if (message.mentions.roles.has(ROLE_ID) && !message.mentions.everyone && message.channel.type !== 11 && !message.reference) {
-    const response = 'Greetings, I am <@&1485123070921277530>. My prefix is `>` and I am developed by **Mys1icX**. If you have any questions about the operations of this bot, please make a ticket in <#1480398372027502652>. Have a good day!';
+  if (message.mentions.users.has(BOT_ID) && !message.mentions.everyone && message.channel.type === 0 && !message.reference) {
+    const response = `Greetings, I am <@${BOT_ID}>. My prefix is \`>\` and I am developed by **Mys1icX**. If you have any questions about the operations of this bot, please make a ticket in <#1480398372027502652>. Have a good day!`;
     const sent = await message.channel.send(response);
     setTimeout(() => {
       sent.delete().catch(() => {});
