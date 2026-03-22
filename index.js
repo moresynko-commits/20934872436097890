@@ -30,15 +30,15 @@ const app = express();
 app.get('/', (req, res) => res.send('USSS Bot Online'));
 app.listen(process.env.PORT || 3000);
 
-client.on('ready', async () => {
+client.on('clientReady', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity('U.S. Secret Service | .gg/VFbDuJZFpC', { type: 'WATCHING' });
 
   // Register slash commands
   const commands = [
     new SlashCommandBuilder().setName('ping').setDescription('Pong!'),
-    new SlashCommandBuilder().setName('ban').setDescription('Ban user').addUserOption(o => o.setName('user').setRequired(true)).addStringOption(o => o.setName('reason')).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
-    new SlashCommandBuilder().setName('kick').setDescription('Kick user').addUserOption(o => o.setName('user').setRequired(true)).addStringOption(o => o.setName('reason')).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
+    new SlashCommandBuilder().setName('ban').setDescription('Ban user').addUserOption(o => o.setName('user').setDescription('User to ban').setRequired(true)).addStringOption(o => o.setName('reason').setDescription('Ban reason')).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+    new SlashCommandBuilder().setName('kick').setDescription('Kick user').addUserOption(o => o.setName('user').setDescription('User to kick').setRequired(true)).addStringOption(o => o.setName('reason').setDescription('Kick reason')).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
     // Add more as needed
   ].map(c => c.toJSON());
 
