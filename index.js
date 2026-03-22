@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, SlashCommandBuilder, PermissionFlagsBits, Emb
 const express = require('express');
 
 const GUILD_ID = '1478745386586865788';
+const ROLE_ID = '1485123070921277530';
 const VOICE_CHANNEL_ID = '1485109675904208997';
 
 const WELCOME_CHANNEL_ID = '1480025451765436510';
@@ -107,16 +108,26 @@ client.on('interactionCreate', async interaction => {
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided.';
     await member.kick(reason);
-    const embed = EmbedBuilder().setDescription(`Kicked ${member.user.tag} for: ${reason}`).setColor(Colors.Orange);
+    const embed = new EmbedBuilder().setDescription(`Kicked ${member.user.tag} for: ${reason}`).setColor(Colors.Orange);
     await interaction.reply({ embeds: [embed] });
   }
   // Add handlers for all other commands
 });
 
+client.on('messageCreate', async (message) => {
+  if (message.mentions.roles.has(ROLE_ID) && !message.mentions.everyone && message.channel.type !== 11 && !message.reference) {
+    const response = 'Greetings, I am <@&1485123070921277530>. My prefix is `>` and I am developed by **Mys1icX**. If you have any questions about the operations of this bot, please make a ticket in <#1480398372027502652>. Have a good day!';
+    const sent = await message.channel.send(response);
+    setTimeout(() => {
+      sent.delete().catch(() => {});
+    }, 10000);
+  }
+});
+
 client.on('guildMemberAdd', async (member) => {
   if (member.guild.id !== GUILD_ID) return;
 
-  // General message first logic unchanged
+  // General message 
   setTimeout(async () => {
     const generalChannel = member.guild.channels.cache.get(GENERAL_CHANNEL_ID);
     if (!generalChannel) return;
